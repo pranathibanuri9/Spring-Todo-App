@@ -11,8 +11,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 @Service
-public class TodoServiceImpl implements TodoService{
+public class TodoServiceImpl implements TodoService {
     @Autowired
     private TodoRepository todoRepository;
 
@@ -21,29 +22,29 @@ public class TodoServiceImpl implements TodoService{
 
     @Override
     public TodoDto createTodo(TodoDto tododto) {
-        Todo todo=this.modelMapper.map(tododto,Todo.class);
-        Todo newTodo=this.todoRepository.save(todo);
-        return this.modelMapper.map(newTodo,TodoDto.class);
+        Todo todo = this.modelMapper.map(tododto, Todo.class);
+        Todo newTodo = this.todoRepository.save(todo);
+        return this.modelMapper.map(newTodo, TodoDto.class);
 
     }
 
     @Override
     public List<TodoDto> getTodos() {
-        List<Todo> todos=this.todoRepository.findAll();
-        List<TodoDto> todoDtos=todos.stream().map(todo->this.modelMapper.map(todo,TodoDto.class)).collect(Collectors.toList());
+        List<Todo> todos = this.todoRepository.findAll();
+        List<TodoDto> todoDtos = todos.stream().map(todo -> this.modelMapper.map(todo, TodoDto.class)).collect(Collectors.toList());
         return todoDtos;
     }
 
     @Override
     public TodoDto getTodoById(Integer todoId) {
-        Todo todo=this.todoRepository.findById(todoId).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"todo Id NOT_FOUND"));
-        TodoDto todoDto=this.modelMapper.map(todo,TodoDto.class);
+        Todo todo = this.todoRepository.findById(todoId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "todo Id NOT_FOUND"));
+        TodoDto todoDto = this.modelMapper.map(todo, TodoDto.class);
         return todoDto;
     }
 
     @Override
     public TodoDto updateTodo(TodoDto todoDto, Integer todoId) {
-        Todo todo=this.todoRepository.findById(todoId).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"todo Id NOT_FOUND"));
+        Todo todo = this.todoRepository.findById(todoId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "todo Id NOT_FOUND"));
         if (todoDto.getStatus() != null) {
             todo.setStatus(todoDto.getStatus().toUpperCase());
         }
@@ -58,13 +59,13 @@ public class TodoServiceImpl implements TodoService{
             todo.setTodo(todoDto.getTodo());
         }
 
-        Todo updatedTodo=this.todoRepository.save(todo);
-        return this.modelMapper.map(updatedTodo,TodoDto.class);
+        Todo updatedTodo = this.todoRepository.save(todo);
+        return this.modelMapper.map(updatedTodo, TodoDto.class);
     }
 
     @Override
     public void deleteTodo(Integer todoId) {
-        Todo todo=this.todoRepository.findById(todoId).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"todo Id NOT_FOUND"));
+        Todo todo = this.todoRepository.findById(todoId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "todo Id NOT_FOUND"));
         this.todoRepository.delete(todo);
 
     }
