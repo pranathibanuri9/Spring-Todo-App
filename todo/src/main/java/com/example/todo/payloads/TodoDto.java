@@ -18,14 +18,15 @@ public class TodoDto {
 //    private String priority;
 private Integer id;
 
-    @NotBlank(message = "Todo description must not be empty")
+
     private String todo;
 
-    @NotNull(message = "Status must be provided")
+
+
     @Pattern(regexp = "TO DO|IN PROGRESS|DONE", message = "Status must be one of: TO DO, IN PROGRESS, DONE")
     private String status;
 
-    @NotNull(message = "Priority must be provided")
+
     @Pattern(regexp = "HIGH|MEDIUM|LOW", message = "Priority must be one of: HIGH, MEDIUM, LOW")
     private String priority;
 }
